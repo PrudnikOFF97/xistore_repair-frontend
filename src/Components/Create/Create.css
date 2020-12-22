@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+.create_form{
+    margin: 20px 30px;
+}
+.create_form form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* height: 70vh; */
+}
+.first_column{
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    height: 81vh;
+    justify-content: space-between;
+}
+.equipment__label{
+    margin-left: 15px;
+}
+.group{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    height: 201px;
+    width: 320px;
+}
+.check_text{
+    margin-top: -5px;
+    margin-left: -10px;
+    padding: 0;
+    display: flex;
+    align-content: center;
+}

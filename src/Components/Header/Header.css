@@ -1,0 +1,32 @@
+.header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    width: 100%;
+    background-color: #242424;
+    height: 75px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 30px;
+    box-sizing: border-box;
+    border-radius: 0 0 20px 20px;
+    box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+.logo{
+    display: flex;
+    align-items: center;
+}
+.logo__img{
+    height: 50px;
+}
+.logo__name{
+    margin-left: 15px;
+}
+.login{
+    color: #FF6700;
+    text-transform: uppercase;
+}
+a{
+    text-decoration: none;
+}

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Xistore Repairs",
+  "name": "App for managing repairs",
   "icons": [
     {
       "src": "favicon.ico",

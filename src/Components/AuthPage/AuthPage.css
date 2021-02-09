@@ -1,0 +1,29 @@
+.authContainer{
+    padding-top: 20px;
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 20px;
+    min-width: 270px;
+    width: 50vw;
+    height: 50vh;
+}
+.input{
+    width: 100%;
+    max-width: 300px;
+}
+.buttonContainer{
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: space-between;
+
+}

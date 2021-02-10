@@ -44,7 +44,7 @@ const Row = (props) => {
     };
     return (
         <>
-            <TableRow role="checkbox" tabIndex={-1} key={row._id} className={row.issueDate !== undefined ? classes.issued : row.receivingDate !== undefined ? classes.recived : ((new Date() - new Date(row.date.split('.')[1]+"-"+row.date.split('.')[0]+"-"+row.date.split('.')[2]))/1000/3600/24) > 12 ? classes.outdated : ""}>
+            <TableRow role="checkbox" tabIndex={-1} key={row._id} className={row.issueDate !== undefined ? classes.issued : row.receivingDate !== undefined ? classes.recived : ((new Date() - new Date(row.date.split('.')[2]+"-"+row.date.split('.')[1]+"-"+row.date.split('.')[0]))/1000/3600/24) > 12 ? classes.outdated : ""}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -54,7 +54,7 @@ const Row = (props) => {
                         const value = row[column.id];
                         return (
                             <TableCell key={column.id} align={column.align}>
-                                {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value}
+                                {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/repairs/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value}
                             </TableCell>
                         );
                     })}
@@ -83,7 +83,7 @@ const Row = (props) => {
                                     const value = row[column.id];
                                     return (
                                         <TableCell key={column.id} align={column.align}>
-                                        {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
+                                        {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/repairs/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
                                         </TableCell>
                                     );
                                     })}

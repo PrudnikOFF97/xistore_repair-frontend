@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 import Card from '@material-ui/core/Card';
 import './AuthPage.css'
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import { AuthContext } from '../../Context/auth-context'
 
 
 
 
 class AuthPage extends Component {
+    static contextType = AuthContext;
     constructor(){
         super();
         this.state = {
@@ -17,9 +20,43 @@ class AuthPage extends Component {
             errors: {
                 login: ' ',
                 password: ' '
-            }
+            },
+            message: ""
         };
     }
+    SubmitHandler = (event) => {
+        this.setState(pre => ({
+            isloading: true
+        }))
+        const auth = this.context
+        event.preventDefault();
+
+        if (this.state.isLoginMode) {
+
+        }
+        else {
+            this.setState(pre => ({
+                isloading: true
+            }))
+        }
+        this.setState({
+            user: { ...this.state.user, email: '', password: '' }
+        });
+    }
+    LoginHandler = () => {
+        const auth = this.context;
+        Axios.post(process.env.REACT_APP_API_URL+'/user/login', {login: this.state.login, password: this.state.password})
+        .then(response => {
+            this.props.history.push('/');
+            auth.login(response.data.userId, response.data.token);
+        }).catch(e => {});
+    };
+    SignUpHandler = () => {
+        const user = {login: this.state.login, password: this.state.password};
+        Axios.post(process.env.REACT_APP_API_URL+'/user/signup', user).then(response => {
+            response.status == 201 ? this.setState({message: "Вы успешно зарегистрированы!"}) : this.setState({message: ""});
+        })
+    };
     ChangeHandler = (event) =>{
         let errors = this.state.errors;
         this.setState({[event.target.name]: event.target.value});
@@ -72,6 +109,7 @@ class AuthPage extends Component {
             <div className="authContainer">
                 <Card className="card" color="blue">
                     <h1 style={{fontSize: "30px"}}>Вход в систему</h1>
+                    <h3>{this.state.message}</h3>
                     <div className="inputContainer">
                         <this.CssTextField className="input" value={login}  margin="dense" color="secondary" name="login" label="Логин:" onChange={this.ChangeHandler}/>
                         <this.CssTextField className="input" value={password} type="password" margin="dense" color="secondary" name="password" label="Пароль:" onChange={this.ChangeHandler}/>
@@ -82,8 +120,8 @@ class AuthPage extends Component {
                             <span>{this.state.errors.password}</span>}
 
                     <div className="buttonContainer">
-                        <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="primary">Войти</Button>
-                        <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="secondary">Зарегистрироваться</Button>
+                        <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="primary" onClick={this.LoginHandler}>Войти</Button>
+                        <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="secondary" onClick={this.SignUpHandler}>Зарегистрироваться</Button>
                     </div>
                 </Card>
             </div>

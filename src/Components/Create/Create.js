@@ -174,7 +174,7 @@ class Create extends Component {
                         />
                         <CssTextField margin="dense" required={true} name="clientName" variant="outlined" label="ФИО клиента:"/>
                         <CssTextField margin="dense" required={true} type="tel" placeholder="80xxxxxxxxx" pattern="[0-9]{11}" name="clientPhone" variant="outlined" label="Номер телефона:"/>
-                        <CssTextField margin="dense" required={true} name="malfunction" variant="outlined" label="Описание неисправности:"/>
+                        <CssTextField margin="dense" required={true} name="malfunction" multiline variant="outlined" label="Описание неисправности:"/>
                         <CssTextField margin="dense" name="notes" variant="outlined" label="Заметки при приеме:"/>
                         <CssTextField margin="dense" required={true} name="appearance" variant="outlined" multiline={true} rows={4} label="Внешний вид:"/>
                         <CssTextField margin="dense" name="replacementDevice" variant="outlined" label="Подменный фонд:"/>

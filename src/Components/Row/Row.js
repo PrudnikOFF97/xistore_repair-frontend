@@ -11,6 +11,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import DateForm from '../DateForm/DateForm';
+import Axios from 'axios';
 
 const useStyles = makeStyles({
     recived:{
@@ -38,9 +39,8 @@ const Row = (props) => {
     const [row, setRow] = React.useState(props.row);
     const rowUpdate = (id) =>{
         console.log("Update!")
-        fetch(process.env.REACT_APP_API_URL+"/repairs/"+id)
-        .then(res => res.json())
-        .then(result => setRow(result));
+        Axios.get(process.env.REACT_APP_API_URL+"/repairs/"+id)
+        .then(result => setRow(result.data));
     };
     return (
         <>

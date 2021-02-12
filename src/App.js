@@ -8,6 +8,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import { AuthContext } from './Context/auth-context';
 import AddModel from './Components/AddModel/AddModel';
 import AuthPage from './Components/AuthPage/AuthPage';
+import Loader from 'react-loader-spinner';
 
 let logoutTimer;
 
@@ -15,10 +16,12 @@ function App() {
   const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
   const [userId, setUserId] = useState(false);
+  const [isLoading, setIsloading] = useState(true)
 
   const login = useCallback((uid, token, expirationDate) => {
     setToken(token);
     setUserId(uid);
+    setIsloading(false);
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
     localStorage.setItem(
@@ -53,6 +56,7 @@ function App() {
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
+    setIsloading(false)
     if (
       storedData &&
       storedData.token &&
@@ -61,6 +65,14 @@ function App() {
       login(storedData.userId, storedData.token, new Date(storedData.expiration));
     }
   }, [login]);
+  let route = (
+  <>
+    {token ? <Route exact path='/' component={Repairs}/> : <Redirect to="/auth" />} 
+    {token ? <Route path='/create' component={Create}/> : <Redirect to="/auth" />}
+    {token ? <Route path='/addModel' component={AddModel}/> : <Redirect to="/auth" />}
+  </>
+
+  )
 
   return (
     <AuthContext.Provider
@@ -75,12 +87,10 @@ function App() {
       <div className="App">
         <Header/>
         <Switch>
-          <Route exact path='/auth' component={AuthPage}/>
-          {token ? <Route exact path='/' component={Repairs}/> : <Redirect to="/auth" />}
-          {token ? <Route path='/create' component={Create}/> : <Redirect to="/auth" />}
-          {token ? <Route path='/addModel' component={AddModel}/> : <Redirect to="/auth" />}
-          <Route children={<div>404 NOT FOUND</div>} />
-
+          {console.log(token)}
+          <Route path='/auth' component={AuthPage}/>
+          {/* <Route children={<div>404 NOT FOUND</div>} /> */}
+          {!isLoading ? route : <Loader className="app__loader" type="TailSpin" color="#FF6700" height={150} width={150} />}
           {/* <RepairmentsList/> */}
         </Switch>
       </div>

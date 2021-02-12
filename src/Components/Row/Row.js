@@ -37,8 +37,18 @@ const Row = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState(props.row);
+    const handleDateSubmit = (event, column, row) =>{
+        event.preventDefault();
+        if(event.target[column.id].value){
+            Axios.post(process.env.REACT_APP_API_URL+"/repairs/update/"+row._id,{[column.id]: event.target[column.id].value})
+            .then(res =>{
+                if(res.status === 204){
+                    rowUpdate(row._id)
+                }
+            })
+        }
+    };
     const rowUpdate = (id) =>{
-        console.log("Update!")
         Axios.get(process.env.REACT_APP_API_URL+"/repairs/"+id)
         .then(result => setRow(result.data));
     };
@@ -54,7 +64,7 @@ const Row = (props) => {
                         const value = row[column.id];
                         return (
                             <TableCell key={column.id} align={column.align}>
-                                {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/repairs/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value}
+                                {column.type === 'date' ? value !== undefined ? value : <form onSubmit={(event) => handleDateSubmit(event, column, row)}><DateForm columnId={column.id} row={row}/></form> : value}
                             </TableCell>
                         );
                     })}
@@ -83,7 +93,7 @@ const Row = (props) => {
                                     const value = row[column.id];
                                     return (
                                         <TableCell key={column.id} align={column.align}>
-                                        {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/repairs/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
+                                        {column.type === 'date' ? value !== undefined ? value : <form onSubmit={(event) => handleDateSubmit(event, column, row)}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
                                         </TableCell>
                                     );
                                     })}

@@ -47,14 +47,14 @@ class AuthPage extends Component {
         const auth = this.context;
         Axios.post(process.env.REACT_APP_API_URL+'/user/login', {login: this.state.login, password: this.state.password})
         .then(response => {
-            this.props.history.push('/');
             auth.login(response.data.userId, response.data.token);
+            this.props.history.push('/');
         }).catch(e => {});
     };
     SignUpHandler = () => {
         const user = {login: this.state.login, password: this.state.password};
         Axios.post(process.env.REACT_APP_API_URL+'/user/signup', user).then(response => {
-            response.status == 201 ? this.setState({message: "Вы успешно зарегистрированы!"}) : this.setState({message: ""});
+            response.status === 201 ? this.setState({message: "Вы успешно зарегистрированы!"}) : this.setState({message: ""});
         })
     };
     ChangeHandler = (event) =>{
@@ -102,8 +102,8 @@ class AuthPage extends Component {
         },
       })(TextField);
 
-
     render() {
+        this.context.token && this.props.history.push('/');
         let {login, password} = this.state;
         return (
             <div className="authContainer">

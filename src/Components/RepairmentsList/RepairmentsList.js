@@ -107,7 +107,7 @@ const columns = [
               setIsLoaded(true);
             }
           )
-      }, [])
+      });
   
     return (
       <Paper className={classes.root}>

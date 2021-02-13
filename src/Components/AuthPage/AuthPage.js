@@ -24,37 +24,23 @@ class AuthPage extends Component {
             message: ""
         };
     }
-    SubmitHandler = (event) => {
-        this.setState(pre => ({
-            isloading: true
-        }))
-        const auth = this.context
-        event.preventDefault();
-
-        if (this.state.isLoginMode) {
-
-        }
-        else {
-            this.setState(pre => ({
-                isloading: true
-            }))
-        }
-        this.setState({
-            user: { ...this.state.user, email: '', password: '' }
-        });
-    }
     LoginHandler = () => {
         const auth = this.context;
         Axios.post(process.env.REACT_APP_API_URL+'/user/login', {login: this.state.login, password: this.state.password})
         .then(response => {
             auth.login(response.data.userId, response.data.token);
             this.props.history.push('/');
-        }).catch(e => {});
+        }).catch(e => {
+            this.setState({message: e.response.data.message});
+        });
     };
     SignUpHandler = () => {
         const user = {login: this.state.login, password: this.state.password};
         Axios.post(process.env.REACT_APP_API_URL+'/user/signup', user).then(response => {
-            response.status === 201 ? this.setState({message: "Вы успешно зарегистрированы!"}) : this.setState({message: ""});
+            response.status === 201 ? this.setState({message: response.data.message}) : this.setState({message: ""});
+        })
+        .catch(e => {
+            this.setState({message: e.response.data.message})
         })
     };
     ChangeHandler = (event) =>{

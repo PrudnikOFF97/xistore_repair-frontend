@@ -47,8 +47,15 @@ class Create extends Component {
         super();
         this.state = {
             isLoading: false,
+            managers: []
 
         };
+    }
+    componentDidMount(){
+        Axios.get(process.env.REACT_APP_API_URL+"/user/managers")
+        .then(res => {
+            this.setState({managers: res.data});
+        })
     }
     render() {
 
@@ -95,12 +102,14 @@ class Create extends Component {
                             id="demo-simple-select-outlined"
                             label="Приемщик:"
                             required
-                            disabled={this.state.isLoading} 
+                            disabled={this.state.isLoading}
+                            defaultValue=""
                         >
-                            <MenuItem value={"Савицкий А.С."}>Савицкий А.С.</MenuItem>
-                            <MenuItem value={"Прудников В.И."}>Прудников В.И.</MenuItem>
-                            <MenuItem value={"Зенько Е.А."}>Зенько Е.А.</MenuItem>
-                            <MenuItem value={"Азважинский И.А."}>Азважинский И.А.</MenuItem>
+                            {this.state.managers.map(manager => {
+                                return(
+                                    <MenuItem key={manager} value={manager}>{manager}</MenuItem>
+                                );
+                            })}
                         </Select>
                     </FormControl>
                     <CssTextField margin="dense" required={true} color="secondary" name="model" disabled={this.state.isLoading}  variant="outlined" label="Номенклатура:" onBlur={findModel}/>
@@ -115,6 +124,7 @@ class Create extends Component {
                             label="Вид ремонта:"
                             disabled={this.state.isLoading} 
                             required
+                            defaultValue=""
                         >
                             <MenuItem value={"Гарантийный ремонт"}>Гарантийный ремонт</MenuItem>
                             <MenuItem value={"Гарантия SILVER"}>Гарантия SILVER</MenuItem>
@@ -133,6 +143,7 @@ class Create extends Component {
                             label="Организация:"
                             disabled={this.state.isLoading} 
                             required
+                            defaultValue=""
                         >
                             <MenuItem value={"ООО Новый Символ"}>ООО Новый Символ</MenuItem>
                             <MenuItem value={"ООО Ксистор Плюс"}>ООО Ксистор Плюс</MenuItem>

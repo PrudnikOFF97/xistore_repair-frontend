@@ -19,9 +19,9 @@ function App() {
   const [isLoading, setIsloading] = useState(true)
 
   const login = useCallback((uid, token, expirationDate) => {
+    setIsloading(true);
     setToken(token);
     setUserId(uid);
-    setIsloading(false);
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
     localStorage.setItem(
@@ -33,6 +33,7 @@ function App() {
       })
     );
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setIsloading(false);
 
   }, []);
 

@@ -16,7 +16,7 @@ function App() {
   const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
   const [userId, setUserId] = useState(false);
-  const [isLoading, setIsloading] = useState(true)
+  const [isLoading, setIsloading] = useState(true);
 
   const login = useCallback((uid, token, expirationDate) => {
     setIsloading(true);

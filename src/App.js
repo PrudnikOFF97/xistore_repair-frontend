@@ -9,6 +9,7 @@ import { AuthContext } from './Context/auth-context';
 import AddModel from './Components/AddModel/AddModel';
 import AuthPage from './Components/AuthPage/AuthPage';
 import Loader from 'react-loader-spinner';
+import UserSettings from './Components/UserSettings/UserSettings';
 
 let logoutTimer;
 
@@ -71,6 +72,8 @@ function App() {
     {token ? <Route exact path='/' component={Repairs}/> : <Redirect to="/auth" />} 
     {token ? <Route path='/create' component={Create}/> : <Redirect to="/auth" />}
     {token ? <Route path='/addModel' component={AddModel}/> : <Redirect to="/auth" />}
+    {token ? <Route path='/settings' component={UserSettings}/> : <Redirect to="/auth" />}
+
   </>
 
   )

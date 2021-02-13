@@ -3,6 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Avatar } from '@material-ui/core';
 import { AuthContext } from '../../Context/auth-context'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export default function SimpleMenu() {
@@ -26,7 +27,9 @@ export default function SimpleMenu() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <MenuItem onClick={handleClose}>Настройки</MenuItem>
+            <Link to="/settings">
+                <MenuItem onClick={handleClose}>Настройки</MenuItem>
+            </Link>
             <AuthContext.Consumer>
                 {auth => (
                     <MenuItem onClick={auth.logout}>Logout</MenuItem>

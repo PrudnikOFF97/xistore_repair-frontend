@@ -70,7 +70,6 @@ class AuthPage extends Component {
                 break;
         }
         this.setState({errors: errors});
-        // console.log(`${event.target.login} : ${this.state[event.target.login]}`);
     }
     CssTextField = withStyles({
         root: {
@@ -90,15 +89,14 @@ class AuthPage extends Component {
 
     render() {
         this.context.token && this.props.history.push('/');
-        let {login, password} = this.state;
         return (
             <div className="authContainer">
                 <Card className="card" color="blue">
                     <h1 style={{fontSize: "30px"}}>Вход в систему</h1>
                     <h3>{this.state.message}</h3>
                     <div className="inputContainer">
-                        <this.CssTextField className="input" value={login}  margin="dense" color="secondary" name="login" label="Логин:" onChange={this.ChangeHandler}/>
-                        <this.CssTextField className="input" value={password} type="password" margin="dense" color="secondary" name="password" label="Пароль:" onChange={this.ChangeHandler}/>
+                        <this.CssTextField className="input" value={this.state.login}  margin="dense" color="secondary" name="login" label="Логин:" onChange={this.ChangeHandler}/>
+                        <this.CssTextField className="input" value={this.state.password} type="password" margin="dense" color="secondary" name="password" label="Пароль:" onChange={this.ChangeHandler}/>
                     </div>
                     {this.state.errors.login.length > 0 &&
                             <span>{this.state.errors.login}</span>}

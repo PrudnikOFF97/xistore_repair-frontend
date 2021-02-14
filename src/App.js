@@ -91,11 +91,8 @@ function App() {
       <div className="App">
         <Header/>
         <Switch>
-          {console.log(token)}
           <Route path='/auth' component={AuthPage}/>
-          {/* <Route children={<div>404 NOT FOUND</div>} /> */}
           {!isLoading ? route : <Loader className="app__loader" type="TailSpin" color="#FF6700" height={150} width={150} />}
-          {/* <RepairmentsList/> */}
         </Switch>
       </div>
     </AuthContext.Provider>

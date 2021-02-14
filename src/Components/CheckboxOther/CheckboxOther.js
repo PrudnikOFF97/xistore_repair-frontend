@@ -33,8 +33,8 @@ class CheckboxOther extends Component {
         }
         return (
             <div className="check_text">
-                <OrangeCheckbox name="equipment" className="checkbox__other" onClick={change} value={this.state.value}/>
-                <TextField margin="dense" variant="outlined" disabled={!this.state.active} value={!this.state.value ? "" : this.state.value} label="Другое" onChange={handleChange}/>
+                <OrangeCheckbox name="equipment" disabled={this.props.disabled} className="checkbox__other" onClick={change} value={this.state.value}/>
+                <TextField margin="dense" variant="outlined" disabled={!this.state.active || this.props.disabled} value={!this.state.value ? "" : this.state.value} label="Другое" onChange={handleChange}/>
             </div>        
             );
     }

@@ -4,7 +4,15 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import axios from 'axios';
 
+let userData =  JSON.parse(localStorage.getItem("userData"));
+let token;
+if(userData){
+  token= userData.token;
+}
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

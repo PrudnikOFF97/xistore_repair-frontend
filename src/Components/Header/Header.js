@@ -7,6 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/AddCircleOutlined';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import AvatarMenu from '../AvatarMenu/AvatarMenu';
+import { AuthContext } from '../../Context/auth-context';
 
 const AddIconOrange = withStyles({
     root: {
@@ -15,6 +17,7 @@ const AddIconOrange = withStyles({
   })(AddIcon);
   
 class Header extends Component {
+    static contextType = AuthContext;
     render() {
         return (
             <div className='header'>
@@ -24,14 +27,17 @@ class Header extends Component {
                     </Link>
                     <img className="logo__name" src={LogoName} alt="Xistore"></img>
                 </div>
-                <div>
+                {this.context.isLoggedIn &&
+                <div className="actions">
                     <Link to={'/addModel'} >
                         <Button variant="contained" color="primary">Добавить номенклатуру</Button>
                     </Link>
                     <Link to={'/create'} >
                         <IconButton><AddIconOrange /></IconButton>
                     </Link>
-                </div>
+                    <AvatarMenu/>
+                </div>}
+
             </div>
         );
     }

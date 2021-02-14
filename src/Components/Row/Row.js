@@ -11,23 +11,18 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import DateForm from '../DateForm/DateForm';
+import Axios from 'axios';
 
 const useStyles = makeStyles({
     recived:{
-      background: '#fffc00',  /* fallback for old browsers */
-      background: '-webkit-linear-gradient(to left, #ffffff, #ffffff, #fffc00, #fffc00)',  /* Chrome 10-25, Safari 5.1-6 */
       background: 'linear-gradient(to left, #ffffff, #ffffff, #fffc00, #fffc00)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     },
     issued:{
-      background: '#45B649',  /* fallback for old browsers */
-      background: '-webkit-linear-gradient(to right, #45B649, #45B649, #fff, #fff)',  /* Chrome 10-25, Safari 5.1-6 */
-      background: 'linear-gradient(to right, #45B649, #45B649, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: 'linear-gradient(to right, #34a853, #34a853, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     },
     outdated:{
-      background: '#89253e',  /* fallback for old browsers */
-      background: '-webkit-linear-gradient(to right, #89253e, #89253e, #fff, #fff)',
-      background: 'linear-gradient(to right, #89253e, #89253e, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+      background: 'linear-gradient(to right, #ea4335, #ea4335, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
     }
 });
 
@@ -36,15 +31,24 @@ const Row = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState(props.row);
+    const handleDateSubmit = (event, column, row) =>{
+        event.preventDefault();
+        if(event.target[column.id].value){
+            Axios.post(process.env.REACT_APP_API_URL+"/repairs/update/"+row._id,{[column.id]: event.target[column.id].value})
+            .then(res =>{
+                if(res.status === 204){
+                    rowUpdate(row._id)
+                }
+            })
+        }
+    };
     const rowUpdate = (id) =>{
-        console.log("Update!")
-        fetch(process.env.REACT_APP_API_URL+"/repairs/"+id)
-        .then(res => res.json())
-        .then(result => setRow(result));
+        Axios.get(process.env.REACT_APP_API_URL+"/repairs/"+id)
+        .then(result => setRow(result.data));
     };
     return (
         <>
-            <TableRow role="checkbox" tabIndex={-1} key={row._id} className={row.issueDate !== undefined ? classes.issued : row.receivingDate !== undefined ? classes.recived : ((new Date() - new Date(row.date.split('.')[1]+"-"+row.date.split('.')[0]+"-"+row.date.split('.')[2]))/1000/3600/24) > 12 ? classes.outdated : ""}>
+            <TableRow role="checkbox" tabIndex={-1} key={row._id} className={row.issueDate !== undefined ? classes.issued : row.receivingDate !== undefined ? classes.recived : ((new Date() - new Date(row.date.split('.')[2]+"-"+row.date.split('.')[1]+"-"+row.date.split('.')[0]))/1000/3600/24) > 12 ? classes.outdated : ""}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -54,7 +58,7 @@ const Row = (props) => {
                         const value = row[column.id];
                         return (
                             <TableCell key={column.id} align={column.align}>
-                                {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value}
+                                {column.type === 'date' ? value !== undefined ? value : <form onSubmit={(event) => handleDateSubmit(event, column, row)}><DateForm columnId={column.id} row={row}/></form> : value}
                             </TableCell>
                         );
                     })}
@@ -83,7 +87,7 @@ const Row = (props) => {
                                     const value = row[column.id];
                                     return (
                                         <TableCell key={column.id} align={column.align}>
-                                        {column.type === 'date' ? value !== undefined ? value : <form action={process.env.REACT_APP_API_URL+"/update/"+row._id} method="post" onSubmit={()=>{setTimeout(()=>rowUpdate(row._id),4000);}}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
+                                        {column.type === 'date' ? value !== undefined ? value : <form onSubmit={(event) => handleDateSubmit(event, column, row)}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
                                         </TableCell>
                                     );
                                     })}

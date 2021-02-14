@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 import './Create.css';
 import { withStyles } from '@material-ui/core/styles';
 import { Select } from '@material-ui/core';
@@ -12,6 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckboxOther from '../CheckboxOther/CheckboxOther';
+import Loader from 'react-loader-spinner';
 
 
 const CssTextField = withStyles({
@@ -41,6 +43,20 @@ const CssTextField = withStyles({
   })((props) => <Checkbox color="default" {...props} />);
 
 class Create extends Component {
+    constructor(){
+        super();
+        this.state = {
+            isLoading: false,
+            managers: []
+
+        };
+    }
+    componentDidMount(){
+        Axios.get(process.env.REACT_APP_API_URL+"/user/managers")
+        .then(res => {
+            this.setState({managers: res.data});
+        })
+    }
     render() {
 
         const findModel = async (event) => {
@@ -59,9 +75,23 @@ class Create extends Component {
             const eventT = event.target;
             eventT.value = eventT.value.split(".").join("/");
         }
-        return (
+        const handleSubmit = (event) => {
+            event.preventDefault();
+            this.setState({isLoading: true});
+            let data = new FormData(event.target);
+            Axios.post(process.env.REACT_APP_API_URL, data, {responseType: 'blob'})
+            .then(res =>{
+                let file = new Blob([res.data], {type: 'application/pdf'});
+                let fileURL = window.URL.createObjectURL(file);
+                window.open(fileURL);
+                this.setState({isLoading: false});
+                this.props.history.push("/");
+            })
+        };
+        return (<>
+            {this.state.isLoading && <Loader className="app__loader" type="TailSpin" color="#FF6700" height={150} width={150} />}
             <div className="create_form">
-                <form target="_blank" action={process.env.REACT_APP_API_URL} method="post" autoComplete="off" onSubmit={() => setTimeout(() =>this.props.history.push("/"))}>
+                <form autoComplete="off" onSubmit={(event) => handleSubmit(event)}>
                     <div className="first_column">
                     <FormControl variant="outlined">
                         <InputLabel id="demo-simple-select-outlined-label">Приемщик:</InputLabel>
@@ -72,15 +102,18 @@ class Create extends Component {
                             id="demo-simple-select-outlined"
                             label="Приемщик:"
                             required
+                            disabled={this.state.isLoading}
+                            defaultValue=""
                         >
-                            <MenuItem value={"Савицкий А.С."}>Савицкий А.С.</MenuItem>
-                            <MenuItem value={"Прудников В.И."}>Прудников В.И.</MenuItem>
-                            <MenuItem value={"Зенько Е.А."}>Зенько Е.А.</MenuItem>
-                            <MenuItem value={"Азважинский И.А."}>Азважинский И.А.</MenuItem>
+                            {this.state.managers.map(manager => {
+                                return(
+                                    <MenuItem key={manager} value={manager}>{manager}</MenuItem>
+                                );
+                            })}
                         </Select>
                     </FormControl>
-                    <CssTextField margin="dense" required={true} color="secondary" name="model" variant="outlined" label="Номенклатура:" onBlur={findModel}/>
-                    <CssTextField margin="dense" required={true} name="serial" variant="outlined" label="Серия / IMEI:" onBlur={dotReplacer}/>
+                    <CssTextField margin="dense" required={true} color="secondary" name="model" disabled={this.state.isLoading}  variant="outlined" label="Номенклатура:" onBlur={findModel}/>
+                    <CssTextField margin="dense" required={true} name="serial" variant="outlined" disabled={this.state.isLoading}  label="Серия / IMEI:" onBlur={dotReplacer}/>
                     <FormControl variant="outlined">
                         <InputLabel id="demo-simple-select-outlined-label">Вид ремонта:</InputLabel>
                         <Select
@@ -89,7 +122,9 @@ class Create extends Component {
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"
                             label="Вид ремонта:"
+                            disabled={this.state.isLoading} 
                             required
+                            defaultValue=""
                         >
                             <MenuItem value={"Гарантийный ремонт"}>Гарантийный ремонт</MenuItem>
                             <MenuItem value={"Гарантия SILVER"}>Гарантия SILVER</MenuItem>
@@ -106,7 +141,9 @@ class Create extends Component {
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"
                             label="Организация:"
+                            disabled={this.state.isLoading} 
                             required
+                            defaultValue=""
                         >
                             <MenuItem value={"ООО Новый Символ"}>ООО Новый Символ</MenuItem>
                             <MenuItem value={"ООО Ксистор Плюс"}>ООО Ксистор Плюс</MenuItem>
@@ -118,70 +155,70 @@ class Create extends Component {
                             <FormLabel component="legend" className="equipment__label" >Комплектация: </FormLabel>
                             <FormGroup className="group">
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Аппарат"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Аппарат"/>}
                                 label="Аппарат"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Коробка"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Коробка"/>}
                                 label="Коробка"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Гарантийный талон"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Гарантийный талон"/>}
                                 label="Гарантийный талон"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Гарантия Плюс"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Гарантия Плюс"/>}
                                 label="Гарантия Плюс"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Руководство пользователя"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Руководство пользователя"/>}
                                 label="Руководство пользователя"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Зарядное устройство"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Зарядное устройство"/>}
                                 label="Зарядное устройство"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Кабель"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Кабель"/>}
                                 label="Кабель"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Скрепка"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Скрепка"/>}
                                 label="Скрепка"
                                 />
                                 <FormControlLabel
-                                control={<OrangeCheckbox name="equipment" value="Чек"/>}
+                                control={<OrangeCheckbox name="equipment" disabled={this.state.isLoading} value="Чек"/>}
                                 label="Чек"
                                 />
-                                <CheckboxOther />
+                                <CheckboxOther disabled={this.state.isLoading}  />
                             </FormGroup>
                         </FormControl>
                     </div>
                     </div>
                     <div className="first_column">
-                        {/* <CssTextField margin="dense" required={true} name="purchaseDate" variant="outlined" label="Дата покупки:"/> */}
-                        <CssTextField margin="dense" color="secondary" name="refoundNumber" variant="outlined" label="Номер возврата в 1С:"/>
+                        <CssTextField margin="dense" color="secondary" name="refoundNumber" disabled={this.state.isLoading} variant="outlined" label="Номер возврата в 1С:"/>
                         <CssTextField
                         id="date"
                         label="Дата покупки:"
                         name="purchaseDate"
+                        disabled={this.state.isLoading} 
                         type="date"
                         defaultValue="2020-01-01"
-                        // className={classes.textField}
                         InputLabelProps={{
                             shrink: true,
                         }}
                         />
-                        <CssTextField margin="dense" required={true} name="clientName" variant="outlined" label="ФИО клиента:"/>
-                        <CssTextField margin="dense" required={true} type="tel" placeholder="80xxxxxxxxx" pattern="[0-9]{11}" name="clientPhone" variant="outlined" label="Номер телефона:"/>
-                        <CssTextField margin="dense" required={true} name="malfunction" variant="outlined" label="Описание неисправности:"/>
-                        <CssTextField margin="dense" name="notes" variant="outlined" label="Заметки при приеме:"/>
-                        <CssTextField margin="dense" required={true} name="appearance" variant="outlined" multiline={true} rows={4} label="Внешний вид:"/>
-                        <CssTextField margin="dense" name="replacementDevice" variant="outlined" label="Подменный фонд:"/>
-                        <Button type="submit" variant="outlined" color="primary">Записать</Button>
+                        <CssTextField margin="dense" required={true} name="clientName" disabled={this.state.isLoading} variant="outlined" label="ФИО клиента:"/>
+                        <CssTextField margin="dense" required={true} type="tel" placeholder="80xxxxxxxxx" pattern="[0-9]{11}" name="clientPhone" disabled={this.state.isLoading} variant="outlined" label="Номер телефона:"/>
+                        <CssTextField margin="dense" required={true} name="malfunction" multiline disabled={this.state.isLoading} variant="outlined" label="Описание неисправности:"/>
+                        <CssTextField margin="dense" name="notes" disabled={this.state.isLoading} variant="outlined" label="Заметки при приеме:"/>
+                        <CssTextField margin="dense" required={true} name="appearance" disabled={this.state.isLoading} variant="outlined" multiline={true} rows={4} label="Внешний вид:"/>
+                        <CssTextField margin="dense" name="replacementDevice" disabled={this.state.isLoading} variant="outlined" label="Подменный фонд:"/>
+                        <Button type="submit" disabled={this.state.isLoading} variant="outlined" color="primary">Записать</Button>
                     </div>
                 </form>
             </div>
+            </>
         );
     }
 }

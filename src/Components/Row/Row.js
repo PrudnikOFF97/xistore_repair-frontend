@@ -15,20 +15,14 @@ import Axios from 'axios';
 
 const useStyles = makeStyles({
     recived:{
-      background: '#fffc00',  /* fallback for old browsers */
-      background: '-webkit-linear-gradient(to left, #ffffff, #ffffff, #fffc00, #fffc00)',  /* Chrome 10-25, Safari 5.1-6 */
       background: 'linear-gradient(to left, #ffffff, #ffffff, #fffc00, #fffc00)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     },
     issued:{
-      background: '#45B649',  /* fallback for old browsers */
-      background: '-webkit-linear-gradient(to right, #45B649, #45B649, #fff, #fff)',  /* Chrome 10-25, Safari 5.1-6 */
-      background: 'linear-gradient(to right, #45B649, #45B649, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: 'linear-gradient(to right, #34a853, #34a853, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     },
     outdated:{
-      background: '#89253e',  /* fallback for old browsers */
-      background: '-webkit-linear-gradient(to right, #89253e, #89253e, #fff, #fff)',
-      background: 'linear-gradient(to right, #89253e, #89253e, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+      background: 'linear-gradient(to right, #ea4335, #ea4335, #fff, #fff)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
     }
 });
 

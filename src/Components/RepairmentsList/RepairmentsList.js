@@ -107,7 +107,7 @@ const columns = [
               setIsLoaded(true);
             }
           )
-      });
+      }, [props.apiLink]);
   
     return (
       <Paper className={classes.root}>

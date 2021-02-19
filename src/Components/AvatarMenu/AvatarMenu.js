@@ -33,7 +33,7 @@ export default function AvatarMenu() {
   }, []);
 
   return (
-    <div>
+    <div className="avatar">
       <Avatar aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>{isLoaded ? name.split('')[0].toUpperCase() : ''}</Avatar>
       <Menu 
         id="simple-menu"
@@ -44,6 +44,9 @@ export default function AvatarMenu() {
       >
         <Link to="/settings">
           <MenuItem onClick={handleClose}>Настройки</MenuItem>
+        </Link>
+        <Link to="/addModel">
+          <MenuItem onClick={handleClose}>Добавить номенклатуру</MenuItem>
         </Link>
         <AuthContext.Consumer>
           {auth => (

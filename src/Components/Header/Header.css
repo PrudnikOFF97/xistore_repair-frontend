@@ -37,3 +37,9 @@ a{
     display: flex;
     align-items: center;
 }
+.plusIcon{
+    margin-right: 5px;
+}
+.avatar{
+    margin-left: 15px;
+}

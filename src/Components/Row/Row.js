@@ -10,7 +10,9 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
+import PrintIcon from '@material-ui/icons/Print';
 import DateForm from '../DateForm/DateForm';
+import Loader from 'react-loader-spinner';
 import Axios from 'axios';
 
 const useStyles = makeStyles({
@@ -31,6 +33,7 @@ const Row = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState(props.row);
+    const [printLoading, setPrintLoading] = React.useState(false);
     const handleDateSubmit = (event, column, row) =>{
         event.preventDefault();
         if(event.target[column.id].value){
@@ -87,7 +90,20 @@ const Row = (props) => {
                                     const value = row[column.id];
                                     return (
                                         <TableCell key={column.id} align={column.align}>
-                                        {column.type === 'date' ? value !== undefined ? value : <form onSubmit={(event) => handleDateSubmit(event, column, row)}><DateForm columnId={column.id} row={row}/></form> : value !== undefined ? value : 'Нет'}
+                                        {column.type === 'date' ? value !== undefined ? value : <form onSubmit={(event) => handleDateSubmit(event, column, row)}><DateForm columnId={column.id} row={row}/></form> : value !== undefined  ? value : column.type === 'print' ? '' :  'Нет'}
+                                        {column.type === 'print' ? 
+                                        printLoading ? 
+                                        <Loader type="TailSpin" color="#FF6700" height={25} width={25} /> :
+                                        <PrintIcon color="primary" style={{cursor: "pointer"}} onClick={()=>{
+                                            setPrintLoading(true);
+                                            Axios.get(process.env.REACT_APP_API_URL+"/print/"+row._id,{responseType: 'blob'})
+                                            .then(res =>{
+                                                let file = new Blob([res.data], {type: 'application/pdf'});
+                                                let fileURL = window.URL.createObjectURL(file);
+                                                window.open(fileURL);
+                                                setPrintLoading(false);
+                                            })
+                                            }}/> : ""}
                                         </TableCell>
                                     );
                                     })}

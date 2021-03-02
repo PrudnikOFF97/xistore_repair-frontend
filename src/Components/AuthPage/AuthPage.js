@@ -5,7 +5,9 @@ import './AuthPage.css'
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import { AuthContext } from '../../Context/auth-context'
+import { AuthContext } from '../../Context/auth-context';
+import Loader from 'react-loader-spinner';
+
 
 
 
@@ -21,26 +23,32 @@ class AuthPage extends Component {
                 login: ' ',
                 password: ' '
             },
-            message: ""
+            message: "",
+            isLoading: false
         };
     }
     LoginHandler = () => {
         const auth = this.context;
+        this.setState({isLoading: true});
         Axios.post(process.env.REACT_APP_API_URL+'/user/login', {login: this.state.login, password: this.state.password})
         .then(response => {
             auth.login(response.data.userId, response.data.token);
+            this.setState({isLoading: false});
             this.props.history.push('/');
         }).catch(e => {
-            this.setState({message: e.response.data.message});
+            this.setState({message: e.response.data.message,
+                isLoading: false});
         });
     };
     SignUpHandler = () => {
+        this.setState({isLoading: true});
         const user = {login: this.state.login, password: this.state.password};
         Axios.post(process.env.REACT_APP_API_URL+'/user/signup', user).then(response => {
-            response.status === 201 ? this.setState({message: response.data.message}) : this.setState({message: ""});
+            response.status === 201 ? this.setState({message: response.data.message, isLoading: false}) : this.setState({message: "", isLoading: false});
         })
         .catch(e => {
-            this.setState({message: e.response.data.message})
+            this.setState({message: e.response.data.message,
+            isLoading: false});
         })
     };
     ChangeHandler = (event) =>{
@@ -91,6 +99,7 @@ class AuthPage extends Component {
         this.context.token && this.props.history.push('/');
         return (
             <div className="authContainer">
+                {this.state.isLoading && <Loader className="app__loader" type="TailSpin" color="#FF6700" height={250} width={250} />}
                 <Card className="card" color="blue">
                     <h1 style={{fontSize: "30px"}}>Вход в систему</h1>
                     <h3>{this.state.message}</h3>

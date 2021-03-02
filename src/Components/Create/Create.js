@@ -145,9 +145,9 @@ class Create extends Component {
                             required
                             defaultValue=""
                         >
-                            <MenuItem value={"ООО Новый Символ"}>ООО Новый Символ</MenuItem>
                             <MenuItem value={"ООО Ксистор Плюс"}>ООО Ксистор Плюс</MenuItem>
                             <MenuItem value={"ООО Ньюстэйдж"}>ООО Ньюстэйдж</MenuItem>
+                            <MenuItem value={"ООО Новотрэнд"}>ООО Новотрэнд</MenuItem>
                         </Select>
                     </FormControl>
                     <div className="equipment__wrapper">

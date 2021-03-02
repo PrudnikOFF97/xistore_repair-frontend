@@ -69,6 +69,13 @@ const columns = [
       minWidth: 175,
       align: 'center',
     },
+    {
+      id: 'print',
+      label: 'Печать',
+      type: 'print',
+      minWidth: 5,
+      align: 'center',
+    }
   
   ];
   

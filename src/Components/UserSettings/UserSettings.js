@@ -84,7 +84,7 @@ export default class UserSettings extends Component {
                         })}
                         <IconButton className="settings__addManager" onClick={this.handleClick}><this.AddIconOrange /></IconButton>
                     </div>
-                    <this.CssTextField className="settings__adress" margin="dense" color="secondary" name="addres" label="Адрес:" placeholder='(Магазин "Xistore", г. Могилев Планета Green)' value={this.state.addres} onChange={this.ChangeHandler}/>
+                    <this.CssTextField className="settings__adress" margin="dense" color="secondary" name="addres" label="Адрес:" placeholder='Могилев ТЦ "Планета Грин", ул.Островского д.5' value={this.state.addres} onChange={this.ChangeHandler}/>
                     <Button className="settings__submitButton" type="submit" variant="outlined" color="primary">Сохранить</Button>
 
                 </form>

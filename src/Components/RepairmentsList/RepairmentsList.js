@@ -70,6 +70,13 @@ const columns = [
       align: 'center',
     },
     {
+      id: 'comment',
+      label: 'Комментарий',
+      type: 'text',
+      minWidth: 5,
+      align: 'center',
+    },
+    {
       id: 'print',
       label: 'Печать',
       type: 'print',

@@ -73,7 +73,7 @@ class Create extends Component {
         }
         const dotReplacer = (event) =>{
             const eventT = event.target;
-            eventT.value = eventT.value.split(".").join("/");
+            eventT.value = eventT.value.split(".").join("/").toUpperCase();
         }
         const handleSubmit = (event) => {
             event.preventDefault();

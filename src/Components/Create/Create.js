@@ -203,7 +203,8 @@ class Create extends Component {
                         name="purchaseDate"
                         disabled={this.state.isLoading} 
                         type="date"
-                        defaultValue="2020-01-01"
+                        defaultValue=""
+                        required={true}
                         InputLabelProps={{
                             shrink: true,
                         }}

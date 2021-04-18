@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import "../AddModel/AddModel.css";
 import { Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import Axios from 'axios';
@@ -40,7 +41,7 @@ const AddModel = () => {
 
     
     return (
-        <form autoComplete="off" onSubmit={(event) => submitHandler(event)}>
+        <form className="AddModel_form" autoComplete="off" onSubmit={(event) => submitHandler(event)}>
             <CssTextField margin="dense" required={true} style={{margin: "15px"}} color="secondary" name="name" variant="outlined" label="Наименование из 1С:"/>
             <CssTextField margin="dense" required={true} style={{margin: "15px"}} name="code" variant="outlined" label="Штрих-код:"/>
             <div></div>

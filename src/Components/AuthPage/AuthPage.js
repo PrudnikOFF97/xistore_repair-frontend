@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Card from '@material-ui/core/Card';
 import './AuthPage.css'
 import TextField from '@material-ui/core/TextField';
+import Backdrop from '@material-ui/core/Backdrop';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import { AuthContext } from '../../Context/auth-context';
@@ -99,7 +100,7 @@ class AuthPage extends Component {
         this.context.token && this.props.history.push('/');
         return (
             <div className="authContainer">
-                {this.state.isLoading && <Loader className="app__loader" type="TailSpin" color="#FF6700" height={250} width={250} />}
+                {this.state.isLoading && <Backdrop open={this.state.isLoading} style={{zIndex: 10}}><Loader className="app__loader" type="TailSpin" color="#FF6700" height={250} width={250} /></Backdrop>}
                 <Card className="card" color="blue">
                     <h1 style={{fontSize: "30px"}}>Вход в систему</h1>
                     <h3>{this.state.message}</h3>

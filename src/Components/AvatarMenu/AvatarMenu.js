@@ -4,6 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Avatar } from '@material-ui/core';
 import { AuthContext } from '../../Context/auth-context'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import '../AvatarMenu/AvatarMenu.css';
 import Axios from 'axios';
 
 
@@ -36,6 +37,7 @@ export default function AvatarMenu() {
     <div className="avatar">
       <Avatar aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>{isLoaded ? name.split('')[0].toUpperCase() : ''}</Avatar>
       <Menu 
+        className="avatar__menu"
         id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -50,7 +52,7 @@ export default function AvatarMenu() {
         </Link>
         <AuthContext.Consumer>
           {auth => (
-            <MenuItem onClick={auth.logout}>Logout</MenuItem>
+            <MenuItem onClick={auth.logout}>Выйти</MenuItem>
           )}
         </AuthContext.Consumer>
       </Menu>

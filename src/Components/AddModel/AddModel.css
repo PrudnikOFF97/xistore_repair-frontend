@@ -1,0 +1,9 @@
+.AddModel_form {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    flex-direction: column;
+    width: 70%;
+    max-width: 450px;
+    margin: 30px auto;
+}

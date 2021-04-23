@@ -115,7 +115,7 @@ class AuthPage extends Component {
 
                     <div className="buttonContainer">
                         <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="primary" onClick={this.LoginHandler}>Войти</Button>
-                        <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="secondary" onClick={this.SignUpHandler}>Зарегистрироваться</Button>
+                        {/* <Button variant="outlined" disabled={!!this.state.errors.login || !!this.state.errors.password} color="secondary" onClick={this.SignUpHandler}>Зарегистрироваться</Button> */}
                     </div>
                 </Card>
             </div>

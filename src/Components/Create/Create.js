@@ -145,9 +145,13 @@ class Create extends Component {
                             required
                             defaultValue=""
                         >
-                            <MenuItem value={"ООО Ксистор Плюс"}>ООО Ксистор Плюс</MenuItem>
-                            <MenuItem value={"ООО Ньюстэйдж"}>ООО Ньюстэйдж</MenuItem>
                             <MenuItem value={"ООО Новотрэнд"}>ООО Новотрэнд</MenuItem>
+                            <MenuItem value={"ООО Ньюстэйдж"}>ООО Ньюстэйдж</MenuItem>
+                            <MenuItem value={"ООО Ксистор Плюс"}>ООО Ксистор Плюс</MenuItem>
+                            <MenuItem value={"ООО Ксистор Стандарт"}>ООО Ксистор Стандарт</MenuItem>
+                            <MenuItem value={"ООО Ксистор Групп"}>ООО Ксистор Групп</MenuItem>
+                            <MenuItem value={"ООО Ксистор Ритейл"}>ООО Ксистор Ритейл</MenuItem>
+                            <MenuItem value={"ООО Ксистор Бел"}>ООО Ксистор Бел</MenuItem>
                         </Select>
                     </FormControl>
                     <div className="equipment__wrapper">

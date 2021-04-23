@@ -30,7 +30,7 @@
     width: 100%;
     max-width: 300px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 
 }
 .authContainer > .app__loader{

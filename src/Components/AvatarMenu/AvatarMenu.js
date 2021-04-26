@@ -11,6 +11,7 @@ import Axios from 'axios';
 export default function AvatarMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [name, setName] = React.useState(' ');
+  const [isAdmin, setIsAdmin] = React.useState(false);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   const handleClick = (event) => {
@@ -25,6 +26,7 @@ export default function AvatarMenu() {
       Axios.get(`${process.env.REACT_APP_API_URL}/user`)
       .then(
         (result) => {
+          setIsAdmin(result.data.isAdmin);
           setName(result.data.login);
         }
       )
@@ -50,6 +52,12 @@ export default function AvatarMenu() {
         <Link to="/addModel">
           <MenuItem onClick={handleClose}>Добавить номенклатуру</MenuItem>
         </Link>
+        {!!isAdmin && isLoaded &&
+                <Link to="/addModel">
+                <MenuItem onClick={handleClose}>Секретик!</MenuItem>
+              </Link>
+      
+        }
         <AuthContext.Consumer>
           {auth => (
             <MenuItem onClick={auth.logout}>Выйти</MenuItem>
